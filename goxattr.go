@@ -3,7 +3,7 @@ Goxattr
 -------
 Simple go bindings to the crossxattr library for portable access to xattrs
 
-Copyright (c) Morgan Hill 2015 <morgan@pcwizzltd.com>
+Copyright (c) Morgan Hill 2016 <morgan@pcwizzltd.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ func GetAttr(path string, attrName string) (data []byte, err error) {
 Function SetAttr creates/updates the attribute attrName of the path to data.
 No errors are currently returned however the my be in future.
 */
-func SetAttr(path string, attrName string, data string) (err error) {
+func SetAttr(path string, attrName string, data []byte) (err error) {
 
 	cpath := C.CString(path)
 	defer C.free(unsafe.Pointer(cpath))
@@ -101,7 +101,7 @@ func SetAttr(path string, attrName string, data string) (err error) {
 	cattrName := C.CString(attrName)
 	defer C.free(unsafe.Pointer(cattrName))
 
-	cdata := C.CString(data)
+	cdata := C.CString((string)(data))
 	defer C.free(unsafe.Pointer(cdata))
 
 	cndata := C.size_t(len(data))

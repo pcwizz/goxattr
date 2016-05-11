@@ -1,3 +1,25 @@
+/*
+Goxattr
+-------
+Simple go bindings to the crossxattr library for portable access to xattrs
+
+Copyright (c) Morgan Hill 2016 <morgan@pcwizzltd.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
 package goxattr
 
 import (
@@ -16,7 +38,7 @@ const TEST_ATTR_NAME = "test"
 
 func TestGetAttr001(T *testing.T) {
 	file_name := setup()
-	SetAttr(file_name, TEST_ATTR_NAME, TEST_VALUE)
+	SetAttr(file_name, TEST_ATTR_NAME, ([]byte)(TEST_VALUE))
 	data, _ := GetAttr(file_name, TEST_ATTR_NAME)
 	tear_down(file_name)
 	if (string)(data) != TEST_VALUE {
@@ -26,7 +48,7 @@ func TestGetAttr001(T *testing.T) {
 
 func TestSetAttrOO1(T *testing.T) {
 	file_name := setup()
-	SetAttr(file_name, TEST_ATTR_NAME, TEST_VALUE)
+	SetAttr(file_name, TEST_ATTR_NAME, ([]byte)(TEST_VALUE))
 	_, numAttrs, _ := ListAttrs(file_name)
 	tear_down(file_name)
 	if numAttrs != 1 {
@@ -36,7 +58,7 @@ func TestSetAttrOO1(T *testing.T) {
 
 func TestSetAttr002(T *testing.T) {
 	file_name := setup()
-	SetAttr(file_name, TEST_ATTR_NAME, TEST_VALUE)
+	SetAttr(file_name, TEST_ATTR_NAME, ([]byte)(TEST_VALUE))
 	attrs, _, _ := ListAttrs(file_name)
 	tear_down(file_name)
 	if string(attrs[0][:]) != TEST_ATTR_NAME {
@@ -55,7 +77,7 @@ func TestListAttrs001(T *testing.T) {
 
 func TestDeleteAttr(T *testing.T) {
 	file_name := setup()
-	SetAttr(file_name, TEST_ATTR_NAME, TEST_VALUE)
+	SetAttr(file_name, TEST_ATTR_NAME, ([]byte)(TEST_VALUE))
 	DeleteAttr(file_name, TEST_ATTR_NAME)
 	_, numAttrs, _ := ListAttrs(file_name)
 	tear_down(file_name)
